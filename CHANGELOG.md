@@ -2,6 +2,19 @@
 
 All notable changes to NovelGame are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.5.0] - 2026-08-17
+
+### Added
+- **Agent Identity & Responsibility** section in `SKILL.md`: the engine driver now knows what it is (an interactive fiction engine) and what it owns (identify → research/clarify → build → initialize → play) before acting.
+- **Requirement Intake protocol** in `references/INTAKE.md`: classifies every request into three types — A. Direct theme, B. Reference work, C. Fully custom — with a mandatory online research protocol for Type B (extract power system → stats, items → inventory, countdown → flags, relationships → affinity, world rules → RULES.md, confirm with the player, then build).
+- **Clarification question rules**: at most 2–3 one-line questions (power/rule system, tone, player freedom), only for what is genuinely missing; never interrogate the player.
+- **Worked intake examples** in `INTAKE.md`: "post-apocalyptic survival sim" (Type A) and "like 十日终焉 / 异兽迷城" (Type B).
+
+### Changed
+- `SKILL.md`: new "Starting a New Story" flow with mandatory Step 0 (Requirement Intake) before building settings; setup prompts now reference the intake protocol.
+- `RULES.md`: new mandatory "Requirement Intake" rule — Type B requests must be researched online, never guessed from memory.
+- `plugin.json`: version 0.5.0; description now advertises request-type identification and online research of referenced works.
+
 ## [0.4.0] - 2026-08-17
 
 ### Added
