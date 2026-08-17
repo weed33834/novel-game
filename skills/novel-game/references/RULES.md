@@ -2,6 +2,14 @@
 
 This file defines the mandatory rules of the NovelGame interactive fiction engine. The AI must obey them while running a story.
 
+## Requirement Intake (mandatory before starting)
+
+- Before writing any story, classify the player's request into one of three types (full protocol in `INTAKE.md`): **A. Direct theme**, **B. Reference work**, **C. Fully custom**.
+- **Type B is mandatory research**: if the player references a specific work (e.g. 十日终焉, 异兽迷城, 未来日记), you must research it online before building. Never guess a referenced work's mechanics from memory.
+- Extract what is gameable from the research (power system → stats, items → inventory, countdown → flags, relationships → affinity, world rules → this file), confirm the extraction with the player in one short message, then write it into the settings.
+- Ask at most 2–3 clarifying questions, only for what is genuinely missing. Never interrogate the player.
+- Never start writing a story before the settings exist.
+
 ## State Consistency
 
 - All state must be read/written through `scripts/state.py`; never keep it only in conversation.
