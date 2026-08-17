@@ -65,6 +65,37 @@ python3 skills/novel-game/scripts/new_story.py \
   --title "The Fogbound Detective" --dir ./saves
 ```
 
+## Game Templates
+
+Ready-to-play settings live in `skills/novel-game/references/templates/`. Copy one, tweak it, and start — no setup needed:
+
+| Template | Genre | Language | Premise |
+|----------|-------|----------|---------|
+| [STARFALL.md](skills/novel-game/references/templates/STARFALL.md) | Space opera | English | A lost colony ship answers a signal from an alien megastructure |
+| [DRAGON_ACADEMY.md](skills/novel-game/references/templates/DRAGON_ACADEMY.md) | Fantasy school | English | Students vanish as a sealed vault leaks black mist |
+| [JIANGHU.md](skills/novel-game/references/templates/JIANGHU.md) | Wuxia | Chinese | A wandering swordsman hunts the truth behind a massacre |
+| [NEON_NOIR.md](skills/novel-game/references/templates/NEON_NOIR.md) | Cyberpunk noir | English | A detective holds a memory-rewriting chip worth killing for |
+
+```bash
+# Start from a template in one command
+python3 skills/novel-game/scripts/new_story.py \
+  --settings skills/novel-game/references/templates/STARFALL.md \
+  --title "Starfall" --dir ./saves
+```
+
+## Writing Settings: the Initial State Section
+
+The initial-state parser reads **only** the `## Initial State` section (English), `## 初始状态` (Chinese), or `## 初期状態` (Japanese) of your settings file. Stats, inventory, and flags written anywhere else are ignored. One entry per line, `Key: value`:
+
+```markdown
+## Initial State
+Affinity: Erin=10, Old Hawke=20
+Inventory: old pocket watch, case files
+Special flags: met_erin=true
+```
+
+See [SETTINGS.md](skills/novel-game/references/SETTINGS.md) for the full template and examples in all three languages.
+
 ## Demo
 
 A turn from the bundled example, *The Fogbound Detective* (English output):
@@ -99,7 +130,12 @@ novel-game/
             ├── SETTINGS.md     # Story settings template
             ├── RULES.md        # Mandatory engine rules
             ├── ANTI_TROPE.md   # Anti-cliché checklist & idea bank
-            └── EXAMPLE.md      # Ready-to-play example story
+            ├── EXAMPLE.md      # Ready-to-play example story
+            └── templates/      # Ready-to-play game templates
+                ├── STARFALL.md        # Space opera (English)
+                ├── DRAGON_ACADEMY.md  # Fantasy school (English)
+                ├── JIANGHU.md         # Wuxia (Chinese)
+                └── NEON_NOIR.md       # Cyberpunk noir (English)
 ```
 
 ## State Command Reference
