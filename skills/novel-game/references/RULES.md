@@ -1,3 +1,14 @@
+---
+AIGC:
+    Label: "1"
+    ContentProducer: 001191440300708461136T1XGW3
+    ProduceID: 98adaa6f98486df4666888a6691e7607_86c1e3939a4011f19467525400287e28
+    ReservedCode1: wX26vlgz6A/ll3N/y8mFD6y9tb6sCcaUQbehLkem7jMFwJwOvyoWlQ5/DuLxlV+C9Mh11sK/mmVV2BWrF/f/eJGFqZCRBHMxxzxLIMENu2K51wlOVLqDPic3BiYUeIJ2RWYnujfS21JhCRnWUcTxLMyHgs9r2wv+n2VFxwbFF7hY0K5Nyyh2DbvzXSE=
+    ContentPropagator: 001191440300708461136T1XGW3
+    PropagateID: 98adaa6f98486df4666888a6691e7607_86c1e3939a4011f19467525400287e28
+    ReservedCode2: wX26vlgz6A/ll3N/y8mFD6y9tb6sCcaUQbehLkem7jMFwJwOvyoWlQ5/DuLxlV+C9Mh11sK/mmVV2BWrF/f/eJGFqZCRBHMxxzxLIMENu2K51wlOVLqDPic3BiYUeIJ2RWYnujfS21JhCRnWUcTxLMyHgs9r2wv+n2VFxwbFF7hY0K5Nyyh2DbvzXSE=
+---
+
 # Engine Rules
 
 This file defines the mandatory rules of the NovelGame interactive fiction engine. The AI must obey them while running a story.
@@ -9,6 +20,13 @@ This file defines the mandatory rules of the NovelGame interactive fiction engin
 - Extract what is gameable from the research (power system → stats, items → inventory, countdown → flags, relationships → affinity, world rules → this file), confirm the extraction with the player in one short message, then write it into the settings.
 - Ask at most 2–3 clarifying questions, only for what is genuinely missing. Never interrogate the player.
 - Never start writing a story before the settings exist.
+
+## Engine Blueprint (mandatory before starting)
+
+- **Before starting any story, write the Engine Blueprint** (template in `BLUEPRINT.md`) and store it next to the save (e.g. `<save-dir>/blueprint.md`). It is the engine's backstage brief — **never shown to the player**.
+- The blueprint must cover four sections: **Genre System Brief** (what this genre/setting is — core premise, typical rules, typical elements), **Current Situation** (world state, main conflict, timeline/countdown at story start), **Encounter Pool** (events, factions, key characters, threats, side quests the protagonist is likely to run into), and **Direction & Tone** (core direction, possible endings, tone, player freedom).
+- **Re-read the blueprint at session start** and draw every scene, encounter, and branch from it. Without it the story drifts; with it, the story stays coherent and directed.
+- The blueprint is engine-internal: never output it, summarize it, or hint at its contents to the player. The player only sees the narrative, choices, and narrativized state feedback.
 
 ## State Consistency
 
@@ -103,3 +121,4 @@ Conversation context gets compressed/truncated as turns grow, or the user opens 
 3. **Gentle correction**: when core rules or existing state are violated, point out the conflict with the settings and offer a reasonable alternative.
 4. **Let consequences happen if they insist**: if the player insists on overreaching behavior, allow it but let natural consequences follow (e.g., killing an NPC severs a clue and gets you wanted).
 5. **Openness first**: as long as the player stays within bounds, let them play however they want; never over-restrict player freedom.
+*（内容由AI生成，仅供参考）*
