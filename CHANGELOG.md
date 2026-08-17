@@ -2,6 +2,17 @@
 
 All notable changes to NovelGame are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.0] - 2026-08-17
+
+### Added
+- **Game templates**: 4 ready-to-play settings in `references/templates/` — STARFALL (space opera, EN), DRAGON_ACADEMY (fantasy school, EN), JIANGHU (wuxia, ZH), NEON_NOIR (cyberpunk noir, EN). Copy one and start with a single command.
+- **README "Game Templates" section** with a template table and one-command quick start.
+- **README "Writing Settings: the Initial State Section"** documenting that the parser reads only the `## Initial State` / `## 初始状态` / `## 初期状態` section.
+
+### Changed
+- `SETTINGS.md` template: expanded the Initial State section with a clear "only section the parser reads" note, format rules, and worked examples in English, Chinese, and Japanese.
+- `SKILL.md`: starting-a-new-story flow now points to the ready-to-play templates.
+
 ## [0.3.1] - 2026-08-17
 
 ### Added
