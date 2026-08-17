@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "novel-game",
-  "version": "0.5.0",
-  "description": "NovelGame: a self-contained interactive fiction engine. Packages worldbuilding, characters, and rules into reusable settings; the AI auto-loads them and manages story progress, affinity, inventory, and branching saves — no need to re-describe your setup each session. Identifies request type, researches referenced works (e.g. 十日终焉, 异兽迷城, 未来日记) online, and builds the engine from the player's intent. English-first, with Chinese and Japanese output support.",
+  "version": "0.6.0",
+  "description": "NovelGame: a self-contained interactive fiction engine. Packages worldbuilding, characters, and rules into reusable settings; the AI auto-loads them and manages story progress, affinity, inventory, and branching saves — no need to re-describe your setup each session. Identifies request type, researches referenced works (e.g. 十日终焉, 异兽迷城, 未来日记) online, and builds the engine from the player's intent. Before every story it writes an engine-internal Blueprint (genre brief, current situation, encounter pool, direction) that keeps the story coherent and directed — never shown to the player. English-first, with Chinese and Japanese output support.",
   "author": {
     "name": "Marvis"
   },
