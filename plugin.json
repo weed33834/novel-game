@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "novel-game",
+  "version": "0.3.1",
+  "description": "NovelGame: a self-contained interactive fiction engine. Packages worldbuilding, characters, and rules into reusable settings; the AI auto-loads them and manages story progress, affinity, inventory, and branching saves — no need to re-describe your setup each session. English-first, with Chinese and Japanese output support.",
+  "author": {
+    "name": "Marvis"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "interactive-novel",
+    "text-adventure",
+    "visual-novel",
+    "storytelling",
+    "fiction",
+    "game",
+    "rpg",
+    "narrative",
+    "worldbuilding"
+  ]
+}
