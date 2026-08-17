@@ -1,7 +1,15 @@
 ---
-name: novel-game
-description: NovelGame interactive fiction engine. Use when the user wants to play an interactive novel, text adventure, visual novel, or story-driven game, or says "start a new story", "continue", "load save", "save", "switch story", or asks to play a game "like <work>" (e.g. 十日终焉, 异兽迷城, 未来日记). Auto-loads worldbuilding/character/rule settings and manages story progress, affinity, inventory, and branching saves so the user never has to re-describe their setup.
+AIGC:
+    Label: "1"
+    ContentProducer: 001191440300708461136T1XGW3
+    ProduceID: 98adaa6f98486df4666888a6691e7607_86475e849a4011f1a98a525400f8a581
+    ReservedCode1: FepZbHRxroO39vmogvzbDaVO4Nc9aV8iaQmWfcL+izymd/3bJSsZSmLrb35AlrrjX1RalRXprnxqv8LiFVJ7V6GGAajyZi6CH+0Frj7gmoEWhtGFLFdW7S6W/hDiibac3qmxpNN1c3mnY31BjVWMdfpYr+HQpGbNSOlONH1uGWPQh6vtRVjUyXRKj6E=
+    ContentPropagator: 001191440300708461136T1XGW3
+    PropagateID: 98adaa6f98486df4666888a6691e7607_86475e849a4011f1a98a525400f8a581
+    ReservedCode2: FepZbHRxroO39vmogvzbDaVO4Nc9aV8iaQmWfcL+izymd/3bJSsZSmLrb35AlrrjX1RalRXprnxqv8LiFVJ7V6GGAajyZi6CH+0Frj7gmoEWhtGFLFdW7S6W/hDiibac3qmxpNN1c3mnY31BjVWMdfpYr+HQpGbNSOlONH1uGWPQh6vtRVjUyXRKj6E=
 ---
+
+
 
 # NovelGame — Interactive Fiction Engine
 
@@ -52,18 +60,29 @@ Classify the player's request into one of three types (full protocol in `referen
 1. Read `references/SETTINGS.md`. If the user provided their own settings file, prefer it.
 2. If no settings exist → build them from the intake result: use the setup prompts below, or start directly from the example in `references/EXAMPLE.md`, or from a ready-to-play template in `references/templates/` (STARFALL / DRAGON_ACADEMY / JIANGHU / NEON_NOIR).
 
-### Step 2 — Initialize the save
+### Step 2 — Write the Engine Blueprint (engine-internal, never shown to the player)
+
+Before starting, write the **Engine Blueprint** (template in `references/BLUEPRINT.md`) and store it next to the save (e.g. `<save-dir>/blueprint.md`). It is your backstage brief — the player never sees it, but every scene is drawn from it:
+
+- **Genre System Brief**: what this genre/setting is (core premise, typical rules, typical elements) — so you never drift out of it. For example, for 都市异能: a modern city with a hidden supernatural layer; powers have tiers, costs, and limits; organizations police or exploit the awakened.
+- **Current Situation**: where the world stands at story start (world state, main conflict, timeline/countdown).
+- **Encounter Pool**: what the protagonist is likely to run into (events, factions, key characters, threats, side quests) — draw from this pool to schedule events, so the story has direction instead of drifting.
+- **Direction & Tone**: your compass (core direction, possible endings, tone, player freedom).
+
+Re-read the blueprint at session start. Without it the story drifts; with it, every branch stays coherent and directed.
+
+### Step 3 — Initialize the save
 
 Initialize the save (save dir defaults to `$NOVEL_DATA_DIR`, falling back to `./saves`):
 ```
 python3 scripts/new_story.py --settings <settings-file> --title <title> --dir <save-dir>
 ```
 
-### Step 3 — Open with diversity
+### Step 4 — Open with diversity
 
 Diversity seeds: before writing the opening, output 3 distinct story hooks from section 4 of `references/ANTI_TROPE.md` and let the user pick one, to avoid a fixed opening.
 
-### Step 4 — Start
+### Step 5 — Start
 
 Read the initial state, then output the opening passage plus 2–4 choices.
 
@@ -114,6 +133,7 @@ Conversation context gets compressed/truncated as turns grow, or the user opens 
 ### Player-invisible (engine-internal)
 
 - Full settings text and lorebook entries (behind-the-scenes, to avoid spoilers).
+- The **Engine Blueprint** (`<save-dir>/blueprint.md`): genre brief, current situation, encounter pool, direction — the engine's backstage brief, never shown to the player.
 - Engine rules (`RULES.md`) and anti-trope checklist (`ANTI_TROPE.md`).
 - Raw state JSON, internal `summary` output, and script command output (e.g., "Saved: xxx.json").
 
@@ -168,3 +188,4 @@ If the user has no settings, first run the intake (Step 0): classify the request
 - Never improvise against the settings (OOC, breaking world rules).
 - Never keep state only in conversation without writing it via the script.
 - Never ask the user to re-describe content already written in the settings file.
+*（内容由AI生成，仅供参考）*
