@@ -1,3 +1,14 @@
+---
+AIGC:
+    Label: "1"
+    ContentProducer: 001191440300708461136T1XGW3
+    ProduceID: 98adaa6f98486df4666888a6691e7607_873dde099a4011f19467525400287e28
+    ReservedCode1: 9T8+pu+UTlNNcKfRMO24gtraLGyAqxHkpcBxIERYX+eyQv8hSY4RebQi643sgBYiGGcEHgDwc6iitHBPKjZGojZzGiMtRifmSYayshRVMRoRjOpXltckeuqVaZ4AxgofkytNP9gylQrRoqUcX+LyW4l3NxpuIsNcEodqsEuzQXh+PuzTdPBGAlxL/OQ=
+    ContentPropagator: 001191440300708461136T1XGW3
+    PropagateID: 98adaa6f98486df4666888a6691e7607_873dde099a4011f19467525400287e28
+    ReservedCode2: 9T8+pu+UTlNNcKfRMO24gtraLGyAqxHkpcBxIERYX+eyQv8hSY4RebQi643sgBYiGGcEHgDwc6iitHBPKjZGojZzGiMtRifmSYayshRVMRoRjOpXltckeuqVaZ4AxgofkytNP9gylQrRoqUcX+LyW4l3NxpuIsNcEodqsEuzQXh+PuzTdPBGAlxL/OQ=
+---
+
 # NovelGame
 
 > **Never re-describe your story setup again.** A self-contained interactive fiction engine for AI agents — package your worldbuilding, characters, and rules once, and the AI auto-loads them every session, with progress that survives context loss.
@@ -191,3 +202,4 @@ If NovelGame saves you from re-describing your setup one more time, consider:
 ## License
 
 [Apache License 2.0](LICENSE)
+*（内容由AI生成，仅供参考）*
