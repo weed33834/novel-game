@@ -26,7 +26,7 @@ This skill separates **settings** from **runtime**: write the settings once, and
 ## Starting a New Story
 
 1. Check settings: read `references/SETTINGS.md`. If the user provided their own settings file, prefer it.
-2. If no settings exist → guide the user through the setup prompts, or start directly from the example in `references/EXAMPLE.md`.
+2. If no settings exist → guide the user through the setup prompts, or start directly from the example in `references/EXAMPLE.md`, or from a ready-to-play template in `references/templates/` (STARFALL / DRAGON_ACADEMY / JIANGHU / NEON_NOIR).
 3. Initialize the save (save dir defaults to `$NOVEL_DATA_DIR`, falling back to `./saves`):
    ```
    python3 scripts/new_story.py --settings <settings-file> --title <title> --dir <save-dir>
