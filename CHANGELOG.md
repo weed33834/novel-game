@@ -1,6 +1,30 @@
+---
+AIGC:
+    Label: "1"
+    ContentProducer: 001191440300708461136T1XGW3
+    ProduceID: 98adaa6f98486df4666888a6691e7607_87c0ee529a4011f19467525400287e28
+    ReservedCode1: wj+zjRadru9/Zla+EgjRfrxqUhcKfuS9LbVfSVRaaGOdvSkUf0utGduLHsVz2iwPjyVFvCBGkvRVvlworepMwuuVuZvN7MVptUQJuNXhfWiaIoBaCn24Vpcdds8nZ/5/aXewPbNa/GuU5o+36pG9TF8r4UVTyDPBvmDXz2HJUr3opc+vADzxmKfryP8=
+    ContentPropagator: 001191440300708461136T1XGW3
+    PropagateID: 98adaa6f98486df4666888a6691e7607_87c0ee529a4011f19467525400287e28
+    ReservedCode2: wj+zjRadru9/Zla+EgjRfrxqUhcKfuS9LbVfSVRaaGOdvSkUf0utGduLHsVz2iwPjyVFvCBGkvRVvlworepMwuuVuZvN7MVptUQJuNXhfWiaIoBaCn24Vpcdds8nZ/5/aXewPbNa/GuU5o+36pG9TF8r4UVTyDPBvmDXz2HJUr3opc+vADzxmKfryP8=
+---
+
 # Changelog
 
 All notable changes to NovelGame are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [0.6.0] - 2026-08-17
+
+### Added
+- **Engine Blueprint** (`references/BLUEPRINT.md`): a mandatory engine-internal backstage brief written before every story starts, stored next to the save (e.g. `<save-dir>/blueprint.md`). It covers four sections — **Genre System Brief** (what this genre/setting is: core premise, typical rules, typical elements), **Current Situation** (world state, main conflict, timeline/countdown at story start), **Encounter Pool** (events, factions, key characters, threats, side quests the protagonist is likely to run into), and **Direction & Tone** (core direction, possible endings, tone, player freedom).
+- **Blueprint purpose**: the engine draws every scene, encounter, and branch from the blueprint, so the story has direction instead of drifting; re-read it at session start.
+- **Worked intake example** in `INTAKE.md`: "I want to experience urban supernatural powers" (都市异能, Type A) showing a full blueprint (hidden supernatural layer, power vacuum, mentor/rogue/agency/syndicate/artifact encounter pool, survive-and-choose-a-side direction).
+
+### Changed
+- `SKILL.md`: "Starting a New Story" now has a mandatory **Step 2 — Write the Engine Blueprint** (engine-internal, never shown to the player) between building settings and initializing the save; the blueprint is listed under Player-invisible in Information Layering.
+- `RULES.md`: new mandatory "Engine Blueprint" rule — write the blueprint before starting, re-read it at session start, and never output or hint at it to the player.
+- `INTAKE.md`: Build Sequence now includes writing the Engine Blueprint as step 2; the survival and 十日终焉/异兽迷城 examples updated to include blueprint steps.
+- `plugin.json`: version 0.6.0; description now advertises the engine blueprint (genre brief, current situation, encounter pool, direction) as the backstage guide that keeps stories coherent and directed.
 
 ## [0.5.0] - 2026-08-17
 
@@ -52,3 +76,4 @@ All notable changes to NovelGame are documented here. Format follows [Keep a Cha
 
 ### Added
 - Initial interactive fiction engine: settings-as-files, state-as-scripts, branching saves.
+*（内容由AI生成，仅供参考）*
