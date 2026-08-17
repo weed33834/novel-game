@@ -1,3 +1,14 @@
+---
+AIGC:
+    Label: "1"
+    ContentProducer: 001191440300708461136T1XGW3
+    ProduceID: 98adaa6f98486df4666888a6691e7607_85bfe6c69a4011f1a98a525400f8a581
+    ReservedCode1: 4EvuS6PDqMtsbkGdeJUor3MRapG02zkx1UTUTTdRAXb8txVgwJN4YiVll7zgdfZqfPsVHwWo/+WG/Uf5UudOnudILPQxh3AK9pLcpuAFMIwOK9ek6CqDBJQzeNgvVJje7SMaUuu1aFMfO+WzvJGKgJQUSsQuRi0UW4zmkVAiqqQiLST29MoyLD8lbc0=
+    ContentPropagator: 001191440300708461136T1XGW3
+    PropagateID: 98adaa6f98486df4666888a6691e7607_85bfe6c69a4011f1a98a525400f8a581
+    ReservedCode2: 4EvuS6PDqMtsbkGdeJUor3MRapG02zkx1UTUTTdRAXb8txVgwJN4YiVll7zgdfZqfPsVHwWo/+WG/Uf5UudOnudILPQxh3AK9pLcpuAFMIwOK9ek6CqDBJQzeNgvVJje7SMaUuu1aFMfO+WzvJGKgJQUSsQuRi0UW4zmkVAiqqQiLST29MoyLD8lbc0=
+---
+
 # Requirement Intake & Engine Blueprint
 
 This file defines how the AI turns a player's request into a running NovelGame engine.
@@ -67,20 +78,29 @@ For Type A requests, one question is usually enough (e.g., "survival sim — har
 
 ## 5. Build Sequence
 
-1. Write `SETTINGS.md` (world, protagonist, key characters, rules, lorebook, initial state).
-2. Initialize the save:
+1. Write `SETTINGS.md` (world, protagonist, key characters, rules, lorebook, initial state) — this is the **player-visible** contract.
+2. **Write the Engine Blueprint** (from `BLUEPRINT.md`) — this is the **engine-internal** reference, never shown to the player. It contains:
+   - **Genre System Brief**: what this genre/setting is (core premise, typical rules, typical elements) — so the engine never drifts out of it.
+   - **Current Situation**: where the world stands at story start (world state, main conflict, timeline/countdown).
+   - **Encounter Pool**: what the protagonist is likely to run into (events, factions, key characters, threats, side quests) — the engine draws from this pool to schedule events, so the story has direction instead of drifting.
+   - **Direction & Tone**: the engine's compass (core direction, possible endings, tone, player freedom).
+   Store it next to the save (e.g. `<save-dir>/blueprint.md`) and re-read it at session start.
+3. Initialize the save:
    ```
    python3 scripts/new_story.py --settings <settings-file> --title <title> --dir <save-dir>
    ```
-3. Output 3 diversity hooks (from `ANTI_TROPE.md` section 4) and let the player pick one.
-4. Start the game loop.
+4. Output 3 diversity hooks (from `ANTI_TROPE.md` section 4) and let the player pick one.
+5. Start the game loop.
+
+> **Why the blueprint exists**: without it the engine drifts — no direction, no schedule, no grounding. The blueprint is the engine's backstage brief: the player never sees it, but every scene, encounter, and branch is drawn from it, so the story stays coherent and directed.
 
 ## 6. Example: "I want to play a post-apocalyptic survival sim" (Type A)
 
 1. Classify: Type A — direct theme, no reference work.
 2. Ask one clarifying question: "Hardcore realism or lighter pace?"
 3. Build settings: world (collapsed city, scarce resources), protagonist (survivor with a goal), rules (hunger/thirst/sanity as stats, scavenging as inventory), initial state.
-4. Initialize save, output 3 hooks, start playing.
+4. Write the Engine Blueprint: genre brief (survival — resource scarcity, risk/reward), current situation (city fell 3 months ago, water is the currency), encounter pool (raider gangs, abandoned shelters, a rumored safe zone, a dying doctor), direction (find the safe zone or build your own).
+5. Initialize save, output 3 hooks, start playing.
 
 ## 7. Example: "I want to play something like 十日终焉 or 异兽迷城" (Type B)
 
@@ -88,4 +108,17 @@ For Type A requests, one question is usually enough (e.g., "survival sim — har
 2. Research online: 十日终焉 (power system, death-game rules, progression) and 异兽迷城 (beast-taming / ability system, world rules).
 3. Extract gameable mechanics: power tiers → stats; ability acquisition → flags; beast/companion → affinity + inventory; death-game countdown → flag + log.
 4. Confirm with the player in one message: "I'll build: power tiers as stats, ability unlocks as flags, a companion affinity track, and a countdown mechanic. Keep all three?"
-5. Write settings, initialize, play.
+5. Write settings, write the Engine Blueprint (genre brief, current situation, encounter pool, direction), initialize, play.
+
+## 8. Example: "I want to experience urban supernatural powers" (都市异能, Type A)
+
+1. Classify: Type A — direct theme, no specific work referenced.
+2. Ask one clarifying question: "Awakened powers in a modern city — hidden world or public knowledge?"
+3. Build settings: world (modern city with a hidden supernatural layer), protagonist (newly awakened with an unstable power), rules (power tiers, cost/limit of abilities), initial state.
+4. Write the Engine Blueprint:
+   - **Genre brief**: urban supernatural — a modern city with a hidden layer of awakened individuals; powers have tiers, costs, and limits; organizations police or exploit them.
+   - **Current situation**: the city's supernatural underworld is in flux — a power vacuum after the old syndicate collapsed; the protagonist just awakened and is now on everyone's radar.
+   - **Encounter pool**: a mentor figure who offers training, a rogue awakened on a rampage, a government agency that wants to register you, a rival syndicate recruiting, a mysterious artifact tied to your power.
+   - **Direction**: survive the first week, choose a side (agency / syndicate / independent), uncover why you awakened.
+5. Initialize save, output 3 hooks, start playing.
+*（内容由AI生成，仅供参考）*
