@@ -36,6 +36,32 @@
 
 ## Initial State
 
-- Affinity: Character1=0, Character2=0
-- Inventory:
-- Special flags:
+> **This section is the ONLY one the initial-state parser reads.** It must be headed `## Initial State` (English), `## 初始状态` (Chinese), or `## 初期状態` (Japanese). The parser does NOT scan other sections (e.g. `## Key Characters`) for stats/inventory/flags.
+> Format: one entry per line, `Key: value`. Use `，`/`、` or `,` as separators. Empty values (`无` / `なし` / `none`) are skipped.
+
+- Affinity: Character1=10, Character2=20
+- Inventory: item one, item two
+- Special flags: met_character=true, clue_found=true
+
+Examples in each language:
+
+```markdown
+## Initial State
+Affinity: Erin=10, Old Hawke=20
+Inventory: old pocket watch, case files
+Special flags: met_erin=true
+```
+
+```markdown
+## 初始状态
+好感度：林晚=20，老陈=30
+背包：旧怀表、案件卷宗
+特殊：已见过林晚=true
+```
+
+```markdown
+## 初期状態
+親密度：ミナ=15，ケン=25
+所持品：古い懐中時計、事件ファイル
+フラグ：会った=true
+```
