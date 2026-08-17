@@ -24,6 +24,7 @@ Built as an [Agent Plugins](https://agent-plugins.org) 1.0.0 plugin (Working Dra
 ## Features
 
 - **Settings are files** — write your world once, every session auto-loads it.
+- **Requirement intake** — the engine classifies your request (direct theme / referenced work / fully custom), researches referenced works online (e.g. 十日终焉, 异兽迷城, 未来日记) instead of guessing, and asks at most 2–3 clarifying questions before building your engine.
 - **State is scripts** — all progress, affinity, inventory, flags, and branch history persist to JSON saves via `state.py`; game state survives context loss and new sessions.
 - **Tiered memory** — short-term (recent events), mid-term (chapter summaries), and long-term (player-preference reflections) keep long stories coherent.
 - **Chapter snapshots + dynamic context injection** — recover seamlessly after context compression or a new session; recovery is never a restart.
@@ -96,6 +97,18 @@ Special flags: met_erin=true
 
 See [SETTINGS.md](skills/novel-game/references/SETTINGS.md) for the full template and examples in all three languages.
 
+## How the Engine Understands You
+
+Before writing a single line of story, the engine runs a **requirement intake** — it figures out what you actually want:
+
+| Your request | Type | What the engine does |
+|--------------|------|----------------------|
+| "I want to play a post-apocalyptic survival sim" | Direct theme | Builds settings from a template or quick prompts; no research needed |
+| "I want to play something like 十日终焉 / 异兽迷城 / 未来日记" | Referenced work | **Researches the work online**, extracts its gameable mechanics (power system → stats, items → inventory, countdown → flags, relationships → affinity), confirms with you, then builds |
+| "I want a story about..." | Fully custom | Asks at most 2–3 clarifying questions, then builds |
+
+The full protocol lives in [INTAKE.md](skills/novel-game/references/INTAKE.md). The engine never guesses a referenced work's mechanics from memory, and never starts a story before the settings exist.
+
 ## Demo
 
 A turn from the bundled example, *The Fogbound Detective* (English output):
@@ -129,6 +142,7 @@ novel-game/
         └── references/
             ├── SETTINGS.md     # Story settings template
             ├── RULES.md        # Mandatory engine rules
+            ├── INTAKE.md       # Requirement intake & research protocol
             ├── ANTI_TROPE.md   # Anti-cliché checklist & idea bank
             ├── EXAMPLE.md      # Ready-to-play example story
             └── templates/      # Ready-to-play game templates
