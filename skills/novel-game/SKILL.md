@@ -163,7 +163,25 @@ python3 scripts/state.py snapshot --scene <scene> --characters <chars> --goal <g
 python3 scripts/state.py restore [--dir <dir>]                                    # read latest chapter snapshot (recover after context loss)
 python3 scripts/state.py context [--dir <dir>]                                    # dynamic context injection (full context block, for recovery)
 python3 scripts/state.py list [--dir <dir>]                                      # list saves
+python3 scripts/state.py roll --dice <N> [--mod <N>] [--dc <N>] [--dir <dir>]    # roll a die (d20 default) with modifier and optional DC
+python3 scripts/state.py quest --action <add|update|complete|fail> --id <id> [--title <t>] [--desc <d>] [--progress <p>] [--dir <dir>]  # manage quests
+python3 scripts/state.py quest-list [--dir <dir>]                                # list quests
+python3 scripts/state.py combat --action <start|attack|end> [--enemy <e>] [--hp <N>] [--atk <N>] [--damage <N>] [--result <r>] [--dir <dir>]  # manage combat
+python3 scripts/state.py combat-status [--dir <dir>]                             # show combat state
+python3 scripts/state.py ending --id <id> --title <title> [--dir <dir>]          # record a reached ending
+python3 scripts/state.py ending-list [--dir <dir>]                               # list reached endings
+python3 scripts/state.py encounter --pool '<json>' [--avoid <N>] [--dir <dir>]   # pick a weighted encounter, avoiding recent repeats
 ```
+
+## Gameplay Systems
+
+This is an **interactive game**, not a novel. Use the gameplay systems below to make outcomes deterministic, goals trackable, and choices consequential:
+
+- **Dice / checks**: when an action has a meaningful chance of failure (sneaking, persuading, picking a lock, dodging a trap), resolve it with `roll --dice <N> --mod <stat> --dc <target>` instead of free-form judgment. Narrate the result; never show the raw roll to the player.
+- **Quests**: track the player's active goals with `quest --action add --id <id> --title <t> --desc <d>`, update progress with `quest --action update --id <id> --progress <p>`, and close them with `complete` / `fail`. Keep at most 2–3 active quests so the player always knows what to do next; check them with `quest-list`.
+- **Combat**: start a fight with `combat --action start --enemy <e> --hp <N> --atk <N>`, resolve each player action with `combat --action attack --damage <N>` (the enemy's HP is tracked in the save; the enemy's counter-attack is narrated by you), and check `combat-status` each turn. End with `combat --action end --result <win|lose|flee>`.
+- **Endings**: when the player reaches a terminal outcome, record it with `ending --id <id> --title <title>`; `ending-list` shows all endings reached. Multiple playthroughs accumulate endings.
+- **Encounters**: schedule random events from the blueprint's Encounter Pool with `encounter --pool '<json>'` (a JSON list of `{"id": ..., "weight": ...}`). It avoids recently used encounters so events stay varied and directed.
 
 ## Save / Load
 
