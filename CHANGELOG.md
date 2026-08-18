@@ -13,6 +13,21 @@ AIGC:
 
 All notable changes to NovelGame are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.7.0] - 2026-08-18
+
+### Added
+- **Gameplay systems** in `scripts/state.py` — this is an interactive game, not a novel. New commands make outcomes deterministic, goals trackable, and choices consequential:
+  - `roll --dice <N> [--mod <N>] [--dc <N>]`: dice/check resolution (d20 default) with optional modifier and difficulty class, replacing free-form judgment for actions with a meaningful chance of failure.
+  - `quest --action <add|update|complete|fail> --id <id> [--title] [--desc] [--progress]` and `quest-list`: persistent quest tracking with active/completed/failed status.
+  - `combat --action <start|attack|end> [--enemy] [--hp] [--atk] [--damage] [--result]` and `combat-status`: save-tracked combat with enemy HP/ATK, win/lose/flee results.
+  - `ending --id <id> --title <title>` and `ending-list`: ending recording and accumulation across playthroughs.
+  - `encounter --pool '<json>' [--avoid <N>]`: weighted random encounter scheduling from the blueprint's Encounter Pool, avoiding recently used events.
+- **`SKILL.md` "Gameplay Systems" section**: engine guidance on when to use each system (dice for checks, quests for goals, combat for fights, endings for terminal outcomes, encounters for event scheduling), with the rule that raw rolls/numbers are never shown to the player.
+
+### Changed
+- `SKILL.md`: State Command Reference extended with the 8 new gameplay commands.
+- `plugin.json`: version 0.7.0; description now advertises the gameplay systems (dice/checks, quests, combat, endings, encounters).
+
 ## [0.6.0] - 2026-08-17
 
 ### Added
