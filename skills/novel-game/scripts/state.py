@@ -281,6 +281,145 @@ def cmd_list(args: argparse.Namespace) -> None:
         print(f"{s['story_id']}  {s['title']}  node:{s['current_node']}  updated:{s['updated_at']}")
 
 
+# ---------------------------------------------------------------------------
+# Gameplay systems: dice, quests, combat, endings, encounters
+# ---------------------------------------------------------------------------
+
+def cmd_roll(args: argparse.Namespace) -> None:
+    """Roll a die (d20/d100/etc.) with an optional modifier and DC.
+
+    The engine uses this to decide action outcomes instead of free-form
+    judgment, so success/failure is deterministic and fair.
+    """
+    import random
+    total = random.randint(1, args.dice) + args.mod
+    out = f"[ROLL] d{args.dice}{'+' if args.mod >= 0 else ''}{args.mod} = {total}"
+    if args.dc is not None:
+        out += f" (DC {args.dc}) -> {'SUCCESS' if total >= args.dc else 'FAILURE'}"
+    print(out)
+
+
+def cmd_quest(args: argparse.Namespace) -> None:
+    """Mutate a quest: add / update / complete / fail."""
+    def fn(state: dict, args: argparse.Namespace) -> None:
+        quests = state.setdefault("quests", {})
+        if args.action == "add":
+            quests[args.id] = {
+                "title": args.title,
+                "desc": args.desc or "",
+                "status": "active",
+                "progress": "",
+                "added_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            }
+            return
+        q = quests.get(args.id)
+        if not q:
+            sys.exit(f"Quest not found: {args.id}")
+        if args.action == "update":
+            q["progress"] = args.progress
+        elif args.action == "complete":
+            q["status"] = "completed"
+        elif args.action == "fail":
+            q["status"] = "failed"
+    mutate(args, fn)
+
+
+def cmd_quest_list(args: argparse.Namespace) -> None:
+    data_dir = resolve_dir(args.dir)
+    story_id = args.story or latest(data_dir)
+    state = load(data_dir, story_id)
+    quests = state.get("quests", {})
+    if not quests:
+        print("[QUESTS] none")
+        return
+    for qid, q in quests.items():
+        print(f"- [{q['status']}] {qid}: {q['title']} {q['progress']}")
+
+
+def cmd_combat(args: argparse.Namespace) -> None:
+    """Mutate combat: start / attack / end."""
+    def fn(state: dict, args: argparse.Namespace) -> None:
+        if args.action == "start":
+            state["combat"] = {
+                "enemy": args.enemy,
+                "hp": args.hp,
+                "max_hp": args.hp,
+                "atk": args.atk,
+                "active": True,
+            }
+            return
+        c = state.get("combat")
+        if not c:
+            sys.exit("No combat in progress")
+        if args.action == "attack":
+            c["hp"] = max(0, c["hp"] - args.damage)
+            if c["hp"] == 0:
+                c["active"] = False
+                c["result"] = "win"
+        elif args.action == "end":
+            c["active"] = False
+            c["result"] = args.result
+    mutate(args, fn)
+
+
+def cmd_combat_status(args: argparse.Namespace) -> None:
+    data_dir = resolve_dir(args.dir)
+    story_id = args.story or latest(data_dir)
+    state = load(data_dir, story_id)
+    c = state.get("combat")
+    if not c or not c.get("active"):
+        print("[COMBAT] none")
+        return
+    print(f"[COMBAT] {c['enemy']} HP {c['hp']}/{c['max_hp']} ATK {c['atk']}")
+
+
+def cmd_ending(args: argparse.Namespace) -> None:
+    """Record a reached ending (endings are judged by the engine from settings + state)."""
+    def fn(state: dict, args: argparse.Namespace) -> None:
+        endings = state.setdefault("endings", [])
+        if not any(e["id"] == args.id for e in endings):
+            endings.append({
+                "id": args.id,
+                "title": args.title,
+                "at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            })
+    mutate(args, fn)
+
+
+def cmd_ending_list(args: argparse.Namespace) -> None:
+    data_dir = resolve_dir(args.dir)
+    story_id = args.story or latest(data_dir)
+    state = load(data_dir, story_id)
+    endings = state.get("endings", [])
+    if not endings:
+        print("[ENDINGS] none reached yet")
+        return
+    for e in endings:
+        print(f"- {e['id']}: {e['title']} ({e['at']})")
+
+
+def cmd_encounter(args: argparse.Namespace) -> None:
+    """Pick an encounter from a pool (JSON list of {id, weight}), avoiding recently used ones.
+
+    The engine passes the blueprint's Encounter Pool here to schedule events
+    with direction instead of drifting or repeating.
+    """
+    import random
+    data_dir = resolve_dir(args.dir)
+    story_id = args.story or latest(data_dir)
+    state = load(data_dir, story_id)
+    pool = json.loads(args.pool)
+    hist = state.setdefault("encounter_history", [])
+    recent = set(hist[-max(1, args.avoid):])
+    candidates = [e for e in pool if e["id"] not in recent] or pool
+    weights = [e.get("weight", 1) for e in candidates]
+    pick = random.choices(candidates, weights=weights, k=1)[0]
+    hist.append(pick["id"])
+    del hist[:-20]
+    save(data_dir, state)
+    print(f"[ENCOUNTER] {pick['id']}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="NovelGame state management")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -383,6 +522,64 @@ def main() -> None:
     p = sub.add_parser("list", help="list saves")
     p.add_argument("--dir", default="")
     p.set_defaults(func=cmd_list)
+
+    p = sub.add_parser("roll", help="roll a die with optional modifier and DC")
+    p.add_argument("--dice", type=int, default=20)
+    p.add_argument("--mod", type=int, default=0)
+    p.add_argument("--dc", type=int, default=None)
+    p.add_argument("--story", default="")
+    p.add_argument("--dir", default="")
+    p.set_defaults(func=cmd_roll)
+
+    p = sub.add_parser("quest", help="mutate a quest: add / update / complete / fail")
+    p.add_argument("--action", required=True, choices=["add", "update", "complete", "fail"])
+    p.add_argument("--id", required=True)
+    p.add_argument("--title", default="")
+    p.add_argument("--desc", default="")
+    p.add_argument("--progress", default="")
+    p.add_argument("--story", default="")
+    p.add_argument("--dir", default="")
+    p.set_defaults(func=cmd_quest)
+
+    p = sub.add_parser("quest-list", help="list active/completed/failed quests")
+    p.add_argument("--story", default="")
+    p.add_argument("--dir", default="")
+    p.set_defaults(func=cmd_quest_list)
+
+    p = sub.add_parser("combat", help="mutate combat: start / attack / end")
+    p.add_argument("--action", required=True, choices=["start", "attack", "end"])
+    p.add_argument("--enemy", default="")
+    p.add_argument("--hp", type=int, default=0)
+    p.add_argument("--atk", type=int, default=0)
+    p.add_argument("--damage", type=int, default=0)
+    p.add_argument("--result", default="")
+    p.add_argument("--story", default="")
+    p.add_argument("--dir", default="")
+    p.set_defaults(func=cmd_combat)
+
+    p = sub.add_parser("combat-status", help="show current combat state")
+    p.add_argument("--story", default="")
+    p.add_argument("--dir", default="")
+    p.set_defaults(func=cmd_combat_status)
+
+    p = sub.add_parser("ending", help="record a reached ending")
+    p.add_argument("--id", required=True)
+    p.add_argument("--title", required=True)
+    p.add_argument("--story", default="")
+    p.add_argument("--dir", default="")
+    p.set_defaults(func=cmd_ending)
+
+    p = sub.add_parser("ending-list", help="list reached endings")
+    p.add_argument("--story", default="")
+    p.add_argument("--dir", default="")
+    p.set_defaults(func=cmd_ending_list)
+
+    p = sub.add_parser("encounter", help="pick a weighted encounter from a JSON pool, avoiding recent repeats")
+    p.add_argument("--pool", required=True)
+    p.add_argument("--avoid", type=int, default=3)
+    p.add_argument("--story", default="")
+    p.add_argument("--dir", default="")
+    p.set_defaults(func=cmd_encounter)
 
     args = parser.parse_args()
     args.func(args)
